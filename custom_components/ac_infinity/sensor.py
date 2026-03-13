@@ -6,6 +6,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .coordinator import ACInfinityCoordinator
 from . import DOMAIN
 
+if data.device.state.version >= 3 and data.device.state.type in [6, 7, 9, 11, 12]:
 
 async def async_setup_entry(hass, entry, async_add_entities):
 
