@@ -2,6 +2,8 @@ DOMAIN = "ac_infinity"
 
 UPDATE_INTERVAL = 10
 
+DEVICE_MODEL = {1: “Controller 67”, 6: “AirTap”, 7: “Controller 69”, 11: “Controller 69 Pro”}
+
 SERVICE_UUID = "0000fff0-0000-1000-8000-00805f9b34fb"
 CHAR_UUID = "0000fff3-0000-1000-8000-00805f9b34fb"
 MANUFACTURER_ID = 2306
