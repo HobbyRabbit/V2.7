@@ -1,47 +1,43 @@
-from homeassistant.components.switch import SwitchEntity
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.components.sensor import SensorEntity
 
 from .const import DOMAIN
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
+
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
-    entities = [
-        ACInfinityPortSwitch(coordinator, port)
-        for port in range(1, 9)
+    sensors = [
+        ACInfinityTemp(coordinator),
+        ACInfinityHumidity(coordinator)
     ]
 
-    async_add_entities(entities)
+    async_add_entities(sensors)
 
 
-class ACInfinityPortSwitch(CoordinatorEntity, SwitchEntity):
-    """One outlet port switch."""
+class ACInfinityTemp(SensorEntity):
 
-    def __init__(self, coordinator, port: int):
-        super().__init__(coordinator)
+    def __init__(self, coordinator):
 
-        self._port = port
-        self._attr_name = f"AC Infinity Port {port}"
-        self._attr_unique_id = f"{coordinator.address}_port_{port}"
-        self._attr_has_entity_name = True
+        self.coordinator = coordinator
 
-    # -----------------------
-    # STATE
-    # -----------------------
+        self._attr_name = "AC Infinity Temperature"
 
     @property
-    def is_on(self):
-        return self.coordinator.data.get(self._port, False)
+    def native_value(self):
 
-    # -----------------------
-    # COMMANDS
-    # -----------------------
+        return 0
 
-    async def async_turn_on(self, **kwargs):
-        await self.coordinator.set_port(self._port, True)
-        await self.coordinator.async_request_refresh()
 
-    async def async_turn_off(self, **kwargs):
-        await self.coordinator.set_port(self._port, False)
-        await self.coordinator.async_request_refresh()
+class ACInfinityHumidity(SensorEntity):
+
+    def __init__(self, coordinator):
+
+        self.coordinator = coordinator
+
+        self._attr_name = "AC Infinity Humidity"
+
+    @property
+    def native_value(self):
+
+        return 0
