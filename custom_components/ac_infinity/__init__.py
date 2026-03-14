@@ -1,5 +1,6 @@
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.const import CONF_MAC
 
 from .const import DOMAIN
 from .coordinator import ACInfinityCoordinator
@@ -7,9 +8,14 @@ from .coordinator import ACInfinityCoordinator
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
+    mac = entry.data.get(CONF_MAC)
+
+    if not mac:
+        raise ValueError("MAC address missing from config entry")
+
     coordinator = ACInfinityCoordinator(
         hass,
-        entry.data["mac"],
+        mac,
         entry.title,
     )
 
@@ -20,7 +26,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     await hass.config_entries.async_forward_entry_setups(
         entry,
-        ["fan","switch","sensor"]
+        ["fan", "switch", "sensor"],
     )
 
     return True
