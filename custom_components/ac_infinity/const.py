@@ -1,9 +1,16 @@
 DOMAIN = "ac_infinity"
 
+CONF_MAC = "mac"
+
+PORT_COUNT = 8
+
 UPDATE_INTERVAL = 10
 
-DEVICE_MODEL = {1: “Controller 67”, 6: “AirTap”, 7: “Controller 69”, 11: “Controller 69 Pro”, 12: "Controller 69 ProPlus"}
+DEVICE_TYPE_FAN = {1,2,3,8,10}
+DEVICE_TYPE_OUTLET = {4}
 
-SERVICE_UUID = "0000fff0-0000-1000-8000-00805f9b34fb"
-CHAR_UUID = "0000fff3-0000-1000-8000-00805f9b34fb"
-MANUFACTURER_ID = 2306
+DEFAULT_PORT_STATE = {
+    "power": False,
+    "speed": 0,
+    "device_type": 1
+}
