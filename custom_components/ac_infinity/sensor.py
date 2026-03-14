@@ -1,46 +1,43 @@
-from __future__ import annotations
-
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .coordinator import ACInfinityCoordinator
-from . import DOMAIN
+from .const import DOMAIN
 
-if data.device.state.version >= 3 and data.device.state.type in [6, 7, 9, 11, 12]:
 
 async def async_setup_entry(hass, entry, async_add_entities):
 
-    coordinator: ACInfinityCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator = hass.data[DOMAIN][entry.entry_id]
 
-    entities = [
-        ACInfinityTemperatureSensor(coordinator),
-        ACInfinityHumiditySensor(coordinator),
+    sensors = [
+        ACInfinityTemp(coordinator),
+        ACInfinityHumidity(coordinator)
     ]
 
-    async_add_entities(entities)
+    async_add_entities(sensors)
 
 
-class ACInfinityTemperatureSensor(CoordinatorEntity, SensorEntity):
-
-    _attr_name = "AC Infinity Temperature"
-    _attr_native_unit_of_measurement = "°C"
+class ACInfinityTemp(SensorEntity):
 
     def __init__(self, coordinator):
-        super().__init__(coordinator)
+
+        self.coordinator = coordinator
+
+        self._attr_name = "AC Infinity Temperature"
 
     @property
     def native_value(self):
-        return self.coordinator.data.get("temperature")
+
+        return 0
 
 
-class ACInfinityHumiditySensor(CoordinatorEntity, SensorEntity):
-
-    _attr_name = "AC Infinity Humidity"
-    _attr_native_unit_of_measurement = "%"
+class ACInfinityHumidity(SensorEntity):
 
     def __init__(self, coordinator):
-        super().__init__(coordinator)
+
+        self.coordinator = coordinator
+
+        self._attr_name = "AC Infinity Humidity"
 
     @property
     def native_value(self):
-        return self.coordinator.data.get("humidity")
+
+        return 0
