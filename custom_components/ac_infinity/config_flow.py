@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import voluptuous as vol
+
 from homeassistant import config_entries
 from homeassistant.const import CONF_MAC
 
@@ -17,7 +18,9 @@ class ACInfinityConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
             return self.async_create_entry(
                 title=user_input[CONF_MAC],
-                data=user_input,
+                data={
+                    CONF_MAC: user_input[CONF_MAC]
+                },
             )
 
         schema = vol.Schema({
