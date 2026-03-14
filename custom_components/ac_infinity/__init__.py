@@ -8,7 +8,8 @@ from .coordinator import ACInfinityCoordinator
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
-    mac = entry.data.get(CONF_MAC)
+    mac = entry.data["address"]
+    name = entry.title
 
     if not mac:
         raise ValueError("MAC address missing from config entry")
